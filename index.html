@@ -1,53 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>hopefullyinfocus</title>
-  <meta name="description" content="Photos.">
+  <meta name="description" content="3D Photos.">
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="dist/assets/favicon.ico" />
-  <link rel="stylesheet" href="dist/output.css" />
-  <link rel="stylesheet" href="styles.css" />
-  <!-- Alpine.js -->
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <!-- Start - Fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Signika:wght@400;700&display=swap" rel="stylesheet">
-  <!-- End - Fonts -->
-  <!-- Start - Fancybox Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
-  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-  <!-- End - Fancybox Scripts -->
-  <!-- Start - 3D Animation Libraries -->
+  <!-- 3D Animation Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
-  <!-- End - 3D Animation Libraries -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      content: ["./dist/*.{html,js}"],
-      theme: {
-        extend:
-        {
-          fontFamily: {
-            'nothingyoucoulddo': ['Nothing You Could Do', 'cursive'],
-            'signika': ['Signika', 'sans-serif'],
-          },
-        },
-      },
-      plugins: [],
-    }
-  </script>
   <style>
-    .image-container {
-      position: relative;
+    body {
+      margin: 0;
+      padding: 0;
       overflow: hidden;
+      background-color: black;
+      color: white;
+      font-family: sans-serif;
     }
     
     .canvas-container {
@@ -56,126 +28,294 @@
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
-      z-index: 100;
+      z-index: 1;
     }
     
-    .hover-trigger {
-      position: relative;
+    .title {
+      position: fixed;
+      top: 20px;
+      left: 20px;
       z-index: 2;
-      transition: opacity 0.3s ease;
+      font-size: 24px;
+      font-weight: bold;
     }
-
-    .hover-trigger:hover {
+    
+    .instructions {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 2;
+      font-size: 16px;
       opacity: 0.7;
+    }
+    
+    .hidden-images {
+      display: none;
     }
   </style>
 </head>
 
-<body
-  class="dark:bg-black bg-white h-screen text-black dark:text-white px-5 md:px-20 opacity-0 animate-fade-in transition duration-500">
+<body>
   <!-- 3D Canvas Container -->
   <div id="canvas-container" class="canvas-container"></div>
   
-  <!-- Navbar -->
-  <header class="flex w-full overflow-hidden pt-10 pb-1">
-    <!-- Navbar -->
-    <nav id="nav" x-data="{ open: false }" role="navigation" class="w-full">
-      <div class="container mx-auto flex flex-wrap items-center md:flex-no-wrap">
-        <div class="mr-4 md:mr-8">
-          <a href="index.html" class="text-2xl font-signika font-bold">hopefullyinfocus</a>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <!-- Content -->
-  <div class="container mx-auto">
-    <section class="text-neutral-700">
-      <div class="container w-full">
-        <div class="flex flex-wrap w-full">
-          <div class="flex w-full flex-wrap">
-            <div class="w-full p-1">
-              <div class="image-container h-full w-full">
-                <a href="https://res.cloudinary.com/dacv415jh/image/upload/v1676153107/Film/M645/Kodakektar100-m645-230123/R1-09585-0003_yvsaj8.jpg"
-                  data-fancybox="gallery" data-img-id="img1">
-                  <img
-                    class="block h-full w-full object-cover object-center opacity-0 animate-fade-in transition duration-500 transform scale-100 hover-trigger"
-                    src="https://res.cloudinary.com/dacv415jh/image/upload/q_50/v1676153107/Film/M645/Kodakektar100-m645-230123/R1-09585-0003_yvsaj8.jpg" />
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="flex w-full flex-wrap">
-            <div class="w-full md:w-1/2 p-1">
-              <div class="image-container h-full w-full">
-                <a href="https://res.cloudinary.com/dacv415jh/image/upload/v1674261904/Film/K1000/Cinestill800t-k1000-05102022/R1-09318-0011_r7lf3u.jpg"
-                  data-fancybox="gallery" data-img-id="img2">
-                  <img
-                    class="block h-full w-full object-cover object-center opacity-0 animate-fade-in transition duration-500 transform scale-100 hover-trigger"
-                    src="https://res.cloudinary.com/dacv415jh/image/upload/q_50/v1674261904/Film/K1000/Cinestill800t-k1000-05102022/R1-09318-0011_r7lf3u.jpg" />
-                </a>
-              </div>
-            </div>
-            <div class="w-full md:w-1/2 p-1">
-              <div class="image-container h-full w-full">
-                <a href="https://res.cloudinary.com/dacv415jh/image/upload/v1681490799/Film/K1000/Kodakgold200-k1000-23032023/000033040030_baanyb.jpg"
-                  data-fancybox="gallery" data-img-id="img3">
-                  <img
-                    class="block h-full w-full object-cover object-center opacity-0 animate-fade-in transition duration-500 transform scale-100 hover-trigger"
-                    src="https://res.cloudinary.com/dacv415jh/image/upload/q_50/v1681490799/Film/K1000/Kodakgold200-k1000-23032023/000033040030_baanyb.jpg" />
-                </a>
-              </div>
-            </div>
-            <div class="w-full p-1">
-              <div class="image-container h-full w-full">
-                <a href="https://res.cloudinary.com/dacv415jh/image/upload/v1674262040/Film/K1000/Kodakultramax400-k1000-23052022/R1-08323-007A_f4tozn.jpg"
-                  data-fancybox="gallery" data-img-id="img4">
-                  <img
-                    class="block h-full w-full object-cover object-center opacity-0 animate-fade-in transition duration-500 transform scale-100 hover-trigger"
-                    src="https://res.cloudinary.com/dacv415jh/image/upload/q_50/v1674262040/Film/K1000/Kodakultramax400-k1000-23052022/R1-08323-007A_f4tozn.jpg" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <!-- Title -->
+  <div class="title">hopefullyinfocus</div>
+  
+  <!-- Instructions -->
+  <div class="instructions">Move your mouse to interact with the 3D elements</div>
+  
+  <!-- Hidden container with images for textures -->
+  <div class="hidden-images">
+    <img id="img1" src="https://res.cloudinary.com/dacv415jh/image/upload/q_50/v1676153107/Film/M645/Kodakektar100-m645-230123/R1-09585-0003_yvsaj8.jpg" data-img-id="img1">
+    <img id="img2" src="https://res.cloudinary.com/dacv415jh/image/upload/q_50/v1674261904/Film/K1000/Cinestill800t-k1000-05102022/R1-09318-0011_r7lf3u.jpg" data-img-id="img2">
+    <img id="img3" src="https://res.cloudinary.com/dacv415jh/image/upload/q_50/v1681490799/Film/K1000/Kodakgold200-k1000-23032023/000033040030_baanyb.jpg" data-img-id="img3">
+    <img id="img4" src="https://res.cloudinary.com/dacv415jh/image/upload/q_50/v1674262040/Film/K1000/Kodakultramax400-k1000-23052022/R1-08323-007A_f4tozn.jpg" data-img-id="img4">
   </div>
-  <!-- Footer -->
-  <footer>
-    <div class="max-w-screen-xl py-16 mx-auto">
-      <div class="grid grid-cols-1 gap-8 text-center mx-auto">
-        <div>
-          <p class="font-signika"><b>hopefullyinfocus</b></p>
-          <div class="flex mx-auto">
-            <div class="mx-auto space-x-6 flex mt-8 text-gray-600 dark:text-gray-300">
-              <a class="transition duration-300 hover:opacity-75" href="https://www.instagram.com/hopefullyinfocus"
-                target="_blank" rel="noreferrer">
-                <span class="sr-only"> Instagram </span>
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                  <path
-                    d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
-                </svg>
-              </a>
-              <a class="transition duration-300 hover:opacity-75" href="https://hopefullyinfocus.substack.com"
-                target="_blank" rel="noreferrer">
-                <span class="sr-only"> Substack </span>
-                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 448 511.471" aria-hidden="true"><path fill="currentColor" d="M0 0h448v62.804H0V0zm0 229.083h448v282.388L223.954 385.808 0 511.471V229.083zm0-114.542h448v62.804H0v-62.804z"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- Script for the LightBox -->
-  <script>
-    Fancybox.bind("[data-fancybox]", {});
-  </script>
-  <script src="dist/fade_in.js"></script>
-  <script src="dist/menu.js"></script>
+  
   <!-- 3D Animation Script -->
-  <script src="src/hover.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize Three.js scene
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 10;
+      
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 1);
+      document.getElementById('canvas-container').appendChild(renderer.domElement);
+      
+      // Initialize Cannon.js physics world
+      const world = new CANNON.World();
+      world.gravity.set(0, -5, 0); // Reduced gravity for floating effect
+      world.broadphase = new CANNON.NaiveBroadphase();
+      world.solver.iterations = 10;
+      
+      // Add a ground plane very far down
+      const groundShape = new CANNON.Plane();
+      const groundBody = new CANNON.Body({ mass: 0 });
+      groundBody.addShape(groundShape);
+      groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
+      groundBody.position.set(0, -20, 0);
+      world.addBody(groundBody);
+      
+      // Add invisible walls to keep objects in view
+      const wallShape = new CANNON.Plane();
+      
+      // Left wall
+      const leftWallBody = new CANNON.Body({ mass: 0 });
+      leftWallBody.addShape(wallShape);
+      leftWallBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 2);
+      leftWallBody.position.set(-15, 0, 0);
+      world.addBody(leftWallBody);
+      
+      // Right wall
+      const rightWallBody = new CANNON.Body({ mass: 0 });
+      rightWallBody.addShape(wallShape);
+      rightWallBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI / 2);
+      rightWallBody.position.set(15, 0, 0);
+      world.addBody(rightWallBody);
+      
+      // Back wall
+      const backWallBody = new CANNON.Body({ mass: 0 });
+      backWallBody.addShape(wallShape);
+      backWallBody.position.set(0, 0, -15);
+      world.addBody(backWallBody);
+      
+      // Front wall
+      const frontWallBody = new CANNON.Body({ mass: 0 });
+      frontWallBody.addShape(wallShape);
+      frontWallBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI);
+      frontWallBody.position.set(0, 0, 15);
+      world.addBody(frontWallBody);
+      
+      // Create a raycaster for mouse interaction
+      const raycaster = new THREE.Raycaster();
+      const mouse = new THREE.Vector2();
+      
+      // Store all meshes, bodies, and their original data
+      const objects = [];
+      const textureLoader = new THREE.TextureLoader();
+      const imageElements = document.querySelectorAll('[data-img-id]');
+      
+      // Create fragments for each image
+      imageElements.forEach((imageEl, index) => {
+        const texture = textureLoader.load(imageEl.src);
+        
+        // Create much larger fragments from each image
+        const fragmentCount = 3 + Math.floor(Math.random() * 3); // 3 to 5 larger fragments
+        
+        for (let i = 0; i < fragmentCount; i++) {
+          // Significantly larger size for the fragment
+          const width = 3 + Math.random() * 3; // 3-6 units wide
+          const height = 3 + Math.random() * 3; // 3-6 units tall
+          const depth = 0.2 + Math.random() * 0.5; // Thicker depth
+          
+          // Create a mesh with the image texture
+          const geometry = new THREE.BoxGeometry(width, height, depth);
+          
+          // Create a custom UV mapping to show different parts of the texture on each fragment
+          const uvOffsetX = Math.random() * 0.5;
+          const uvOffsetY = Math.random() * 0.5;
+          
+          // Apply the UV offset to the geometry
+          const uvs = geometry.attributes.uv;
+          for (let j = 0; j < uvs.count; j++) {
+            let u = uvs.getX(j);
+            let v = uvs.getY(j);
+            
+            u = (u * 0.5) + uvOffsetX;
+            v = (v * 0.5) + uvOffsetY;
+            
+            uvs.setXY(j, u, v);
+          }
+          
+          const material = new THREE.MeshBasicMaterial({ 
+            map: texture,
+            transparent: true,
+            opacity: 1
+          });
+          
+          const mesh = new THREE.Mesh(geometry, material);
+          scene.add(mesh);
+          
+          // Create a physics body
+          const shape = new CANNON.Box(new CANNON.Vec3(width/2, height/2, depth/2));
+          const body = new CANNON.Body({ 
+            mass: 1,
+            linearDamping: 0.3,
+            angularDamping: 0.3
+          });
+          body.addShape(shape);
+          
+          // Position the fragment randomly in space
+          body.position.set(
+            Math.random() * 20 - 10,
+            Math.random() * 20 - 5,
+            Math.random() * 20 - 10
+          );
+          
+          // Add some initial rotation
+          body.quaternion.setFromEuler(
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2
+          );
+          
+          world.addBody(body);
+          
+          objects.push({
+            mesh,
+            body,
+            imageId: imageEl.getAttribute('data-img-id')
+          });
+        }
+      });
+      
+      // Add click event for explosion effect
+      document.addEventListener('click', function() {
+        objects.forEach(obj => {
+          // Apply a strong force in random directions
+          const explosionForce = 15 + Math.random() * 20;
+          obj.body.velocity.set(
+            Math.random() * explosionForce - explosionForce/2,
+            Math.random() * explosionForce,
+            Math.random() * explosionForce - explosionForce/2
+          );
+          
+          // Apply stronger rotation
+          obj.body.angularVelocity.set(
+            Math.random() * 15 - 7.5,
+            Math.random() * 15 - 7.5,
+            Math.random() * 15 - 7.5
+          );
+        });
+      });
+      
+      // Mouse movement affects camera and gravity
+      let mouseX = 0;
+      let mouseY = 0;
+      let targetMouseX = 0;
+      let targetMouseY = 0;
+      
+      document.addEventListener('mousemove', (event) => {
+        // Update mouse position for raycaster
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        
+        // Smooth camera movement
+        targetMouseX = mouse.x;
+        targetMouseY = mouse.y;
+        
+        // Tilt gravity based on mouse position
+        world.gravity.set(mouse.x * 10, -5 + mouse.y * 5, 0);
+      });
+      
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+      
+      // Animation loop
+      const timeStep = 1 / 60;
+      const clock = new THREE.Clock();
+      
+      function animate() {
+        requestAnimationFrame(animate);
+        
+        const delta = Math.min(clock.getDelta(), 0.1);
+        
+        // Smooth camera movement
+        mouseX += (targetMouseX - mouseX) * 0.1;
+        mouseY += (targetMouseY - mouseY) * 0.1;
+        
+        // Move camera based on mouse position
+        camera.position.x = mouseX * 5;
+        camera.position.y = mouseY * 5;
+        camera.lookAt(0, 0, 0);
+        
+        // Update physics
+        world.step(timeStep);
+        
+        // Update mesh positions
+        objects.forEach(obj => {
+          obj.mesh.position.copy(obj.body.position);
+          obj.mesh.quaternion.copy(obj.body.quaternion);
+          
+          // If object falls too far, reset it
+          if (obj.body.position.y < -15) {
+            obj.body.position.set(
+              Math.random() * 20 - 10,
+              Math.random() * 10 + 10,
+              Math.random() * 20 - 10
+            );
+            obj.body.velocity.set(0, 0, 0);
+            obj.body.angularVelocity.set(0, 0, 0);
+          }
+        });
+        
+        renderer.render(scene, camera);
+      }
+      
+      // Start the animation loop
+      animate();
+      
+      // Auto-trigger explosion every few seconds
+      setInterval(function() {
+        const randomObjects = objects.filter(() => Math.random() > 0.7);
+        randomObjects.forEach(obj => {
+          const force = 10 + Math.random() * 10;
+          obj.body.applyImpulse(
+            new CANNON.Vec3(Math.random() * force - force/2, force, Math.random() * force - force/2),
+            new CANNON.Vec3(0, 0, 0)
+          );
+        });
+      }, 3000);
+    });
+  </script>
 </body>
 
 </html>
